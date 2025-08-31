@@ -38,11 +38,11 @@ npm install
 # Database
 DATABASE_URL="postgresql://username:password@hostname:port/database_name"
 
-# AWS
-AWS_REGION="ap-northeast-1"
-AWS_S3_BUCKET_NAME="your-wedding-photos-bucket"
-AWS_ACCESS_KEY_ID="your-access-key-id"
-AWS_SECRET_ACCESS_KEY="your-secret-access-key"
+# S3 Configuration (AWS_ prefix is reserved in Amplify)
+S3_REGION="ap-northeast-1"
+S3_BUCKET_NAME="your-wedding-photos-bucket"
+S3_ACCESS_KEY_ID="your-access-key-id"
+S3_SECRET_ACCESS_KEY="your-secret-access-key"
 CLOUDFRONT_DOMAIN="your-cloudfront-domain.cloudfront.net"
 
 # Next.js
@@ -104,11 +104,13 @@ http://localhost:3000 でアプリケーションにアクセスできます。
 ### 2. 環境変数の設定
 Amplifyコンソールで環境変数を設定：
 - `DATABASE_URL`
-- `AWS_REGION`
-- `AWS_S3_BUCKET_NAME`
-- `AWS_ACCESS_KEY_ID`
-- `AWS_SECRET_ACCESS_KEY`
+- `S3_REGION`
+- `S3_BUCKET_NAME`
+- `S3_ACCESS_KEY_ID`
+- `S3_SECRET_ACCESS_KEY`
 - `CLOUDFRONT_DOMAIN`
+
+**注意:** AWS Amplifyでは`AWS_`で始まる環境変数名は予約されているため、`S3_`プレフィックスを使用します。
 
 ## ディレクトリ構造
 

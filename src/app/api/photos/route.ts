@@ -38,6 +38,8 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   try {
     console.log('Fetching photos from database...');
+    
+    // Check if photos table exists by attempting to count
     const photos = await prisma.photo.findMany({
       orderBy: { uploadedAt: 'desc' },
     });
@@ -47,6 +49,13 @@ export async function GET() {
   } catch (error) {
     console.error('Error fetching photos:', error);
     console.error('Error stack:', error instanceof Error ? error.stack : 'Unknown error');
+    
+    // If table doesn't exist, return empty array instead of error
+    if (error instanceof Error && error.message.includes('relation "photos" does not exist')) {
+      console.log('Photos table does not exist, returning empty array');
+      return NextResponse.json([]);
+    }
+    
     return NextResponse.json(
       { error: 'Failed to fetch photos', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }

@@ -1,36 +1,157 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 結婚式写真アップロードアプリ
 
-## Getting Started
+結婚式の写真をゲストがアップロードして共有できるWebアプリケーションです。AWS AmplifyにデプロイしてS3に画像を保存し、PostgreSQL(Neon)にメタデータを保存します。
 
-First, run the development server:
+## 機能
+
+- 📸 写真のアップロード（ひとことコメント付き）
+- 🖼️ アップロードされた写真の一覧表示
+- ☁️ AWS S3への安全なファイルアップロード
+- 🗄️ PostgreSQLでのメタデータ管理
+- 📱 レスポンシブデザイン
+
+## 技術スタック
+
+- **フロントエンド**: Next.js 15 (App Router), TypeScript, Tailwind CSS
+- **バックエンド**: Next.js API Routes
+- **データベース**: PostgreSQL (Neon)
+- **ファイルストレージ**: AWS S3
+- **CDN**: CloudFront
+- **デプロイ**: AWS Amplify
+- **ORM**: Prisma
+
+## セットアップ
+
+### 1. プロジェクトのクローン
+
+```bash
+git clone <リポジトリURL>
+cd wedding-photos
+npm install
+```
+
+### 2. 環境変数の設定
+
+`.env.local`ファイルを作成して以下の環境変数を設定してください：
+
+```bash
+# Database
+DATABASE_URL="postgresql://username:password@hostname:port/database_name"
+
+# AWS
+AWS_REGION="ap-northeast-1"
+AWS_S3_BUCKET_NAME="your-wedding-photos-bucket"
+AWS_ACCESS_KEY_ID="your-access-key-id"
+AWS_SECRET_ACCESS_KEY="your-secret-access-key"
+CLOUDFRONT_DOMAIN="your-cloudfront-domain.cloudfront.net"
+
+# Next.js
+NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+```
+
+### 3. データベースセットアップ
+
+#### Neon PostgreSQLの設定
+1. [Neon](https://neon.tech/)でアカウントを作成
+2. 新しいプロジェクトとデータベースを作成
+3. 接続文字列を`DATABASE_URL`に設定
+
+#### Prismaマイグレーション
+```bash
+npx prisma generate
+npx prisma migrate dev
+```
+
+### 4. AWS設定
+
+#### S3バケットの作成
+1. AWS S3でバケットを作成
+2. バケットにCORSを設定：
+
+```json
+[
+    {
+        "AllowedHeaders": ["*"],
+        "AllowedMethods": ["GET", "PUT", "POST"],
+        "AllowedOrigins": ["*"],
+        "ExposeHeaders": []
+    }
+]
+```
+
+#### CloudFrontの設定
+1. S3バケット用のCloudFrontディストリビューションを作成
+2. ドメイン名を`CLOUDFRONT_DOMAIN`に設定
+
+#### IAMユーザーの作成
+S3への読み書き権限を持つIAMユーザーを作成し、アクセスキーを環境変数に設定
+
+### 5. 開発サーバーの起動
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+http://localhost:3000 でアプリケーションにアクセスできます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## AWS Amplifyデプロイ
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Amplifyアプリの作成
+1. AWS Amplifyコンソールでアプリを作成
+2. GitHubリポジトリと連携
+3. ビルド設定は`amplify.yml`を使用
 
-## Learn More
+### 2. 環境変数の設定
+Amplifyコンソールで環境変数を設定：
+- `DATABASE_URL`
+- `AWS_REGION`
+- `AWS_S3_BUCKET_NAME`
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `CLOUDFRONT_DOMAIN`
 
-To learn more about Next.js, take a look at the following resources:
+## ディレクトリ構造
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+wedding-photos/
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── upload/route.ts    # 署名付きURL生成
+│   │   │   └── photos/route.ts    # 写真CRUD操作
+│   │   ├── upload/page.tsx        # アップロードページ
+│   │   ├── gallery/page.tsx       # 一覧ページ
+│   │   └── page.tsx               # ホームページ
+│   └── lib/
+│       ├── s3.ts                  # AWS S3関連
+│       └── db.ts                  # Prismaクライアント
+├── prisma/
+│   └── schema.prisma              # データベーススキーマ
+└── amplify.yml                    # Amplifyビルド設定
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## データベーススキーマ
 
-## Deploy on Vercel
+```prisma
+model Photo {
+  id            String   @id @default(cuid())
+  filename      String
+  originalName  String
+  s3Key         String   @unique
+  cloudFrontUrl String
+  comment       String?
+  uploadedAt    DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 使い方
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **写真アップロード**: トップページから「写真をアップロード」をクリック
+2. **コメント追加**: 写真と一緒にひとことコメントを追加可能
+3. **一覧表示**: 「みんなのアップロード」で全ての写真を確認
+
+## ライセンス
+
+MIT

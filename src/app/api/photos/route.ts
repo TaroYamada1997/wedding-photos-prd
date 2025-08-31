@@ -37,15 +37,18 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
+    console.log('Fetching photos from database...');
     const photos = await prisma.photo.findMany({
       orderBy: { uploadedAt: 'desc' },
     });
+    console.log(`Found ${photos.length} photos`);
 
     return NextResponse.json(photos);
   } catch (error) {
     console.error('Error fetching photos:', error);
+    console.error('Error stack:', error instanceof Error ? error.stack : 'Unknown error');
     return NextResponse.json(
-      { error: 'Failed to fetch photos' },
+      { error: 'Failed to fetch photos', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

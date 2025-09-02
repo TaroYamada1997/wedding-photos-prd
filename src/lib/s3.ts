@@ -19,8 +19,11 @@ const s3Client = new S3Client({
 export async function generatePresignedUrl(filename: string, contentType: string) {
   const key = `photos/${Date.now()}-${filename}`;
   
+  const bucketName = process.env.S3_BUCKET_NAME || 'shota-wedding-photos-bucket';
+  console.log('Using bucket name:', bucketName);
+  
   const command = new PutObjectCommand({
-    Bucket: process.env.S3_BUCKET_NAME!,
+    Bucket: bucketName,
     Key: key,
     ContentType: contentType,
   });

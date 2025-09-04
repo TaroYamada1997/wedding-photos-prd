@@ -6,6 +6,14 @@ frontend:
         - npm ci
         - echo "DATABASE_URL check..."
         - echo $DATABASE_URL | head -c 50
+        - echo "S3_BUCKET_NAME check..."
+        - echo $S3_BUCKET_NAME
+        - export DATABASE_URL=$DATABASE_URL
+        - export S3_REGION=$S3_REGION
+        - export S3_BUCKET_NAME=$S3_BUCKET_NAME
+        - export S3_ACCESS_KEY_ID=$S3_ACCESS_KEY_ID
+        - export S3_SECRET_ACCESS_KEY=$S3_SECRET_ACCESS_KEY
+        - export CLOUDFRONT_DOMAIN=$CLOUDFRONT_DOMAIN
         - npx prisma generate
         - echo "Running database migration..."
         - npx prisma migrate deploy || (echo "Migration failed, trying db push..." && npx prisma db push --accept-data-loss)

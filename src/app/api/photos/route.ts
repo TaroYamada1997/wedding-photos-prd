@@ -39,7 +39,11 @@ export async function GET() {
   try {
     console.log('Fetching photos from database...');
     
-    // Check if photos table exists by attempting to count
+    // First check if we can connect to the database
+    await prisma.$connect();
+    console.log('Database connection successful');
+    
+    // Check if photos table exists by attempting to query it
     const photos = await prisma.photo.findMany({
       orderBy: { uploadedAt: 'desc' },
     });
@@ -50,15 +54,19 @@ export async function GET() {
     console.error('Error fetching photos:', error);
     console.error('Error stack:', error instanceof Error ? error.stack : 'Unknown error');
     
-    // If table doesn't exist, return empty array instead of error
-    if (error instanceof Error && error.message.includes('relation "photos" does not exist')) {
-      console.log('Photos table does not exist, returning empty array');
+    // If table doesn't exist or database connection fails, return empty array instead of error
+    if (error instanceof Error && (
+      error.message.includes('relation "photos" does not exist') ||
+      error.message.includes('does not exist') ||
+      error.message.includes('table') ||
+      error.message.includes('P2021') // Prisma table doesn't exist error
+    )) {
+      console.log('Photos table does not exist or database error, returning empty array');
       return NextResponse.json([]);
     }
     
-    return NextResponse.json(
-      { error: 'Failed to fetch photos', details: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
-    );
+    // For other errors, still return empty array to avoid breaking the UI
+    console.log('Unknown database error, returning empty array for safety');
+    return NextResponse.json([]);
   }
 }

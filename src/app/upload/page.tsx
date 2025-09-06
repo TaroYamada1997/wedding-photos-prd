@@ -109,7 +109,7 @@ export default function UploadPage() {
         <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-amber-200/50 p-8 space-y-8">
           <div>
             <label className="block text-lg font-serif text-amber-900 mb-4 flex items-center gap-2">
-              写真を選択
+              写真を選択<span className="text-rose-500 text-lg">*</span>
             </label>
             <div className="relative">
               <input
@@ -148,14 +148,14 @@ export default function UploadPage() {
               placeholder="お名前やニックネームを入力してください..."
               className="w-full px-5 py-4 border-2 border-amber-200 rounded-xl focus:ring-4 focus:ring-amber-300/50 focus:border-amber-400 transition-all duration-300 text-base text-amber-900 placeholder-amber-400 bg-gradient-to-r from-white to-amber-50 shadow-inner"
               required
-              maxLength={50}
+              maxLength={15}
             />
             <div className="flex justify-between items-center mt-3">
               <p className="text-xs text-amber-600 flex items-center gap-1">
-                <span>✨</span> {nickname.length}/50文字
+                <span>✨</span> {nickname.length}/15文字
               </p>
-              {nickname.length > 40 && (
-                <span className="text-xs text-orange-500">残り{50 - nickname.length}文字</span>
+              {nickname.length > 12 && (
+                <span className="text-xs text-orange-500">残り{15 - nickname.length}文字</span>
               )}
             </div>
           </div>
@@ -170,14 +170,14 @@ export default function UploadPage() {
               placeholder="なにかひとことあれば！"
               className="w-full px-5 py-4 border-2 border-amber-200 rounded-xl focus:ring-4 focus:ring-amber-300/50 focus:border-amber-400 transition-all duration-300 resize-none text-base text-amber-900 placeholder-amber-400 bg-gradient-to-r from-white to-amber-50 shadow-inner"
               rows={4}
-              maxLength={200}
+              maxLength={50}
             />
             <div className="flex justify-between items-center mt-3">
               <p className="text-xs text-amber-600 flex items-center gap-1">
-                <span>✨</span> {comment.length}/200文字
+                <span>✨</span> {comment.length}/50文字
               </p>
-              {comment.length > 180 && (
-                <span className="text-xs text-orange-500">残り{200 - comment.length}文字</span>
+              {comment.length > 45 && (
+                <span className="text-xs text-orange-500">残り{50 - comment.length}文字</span>
               )}
             </div>
           </div>

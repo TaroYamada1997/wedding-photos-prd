@@ -139,74 +139,55 @@ export default function GalleryPage() {
           </div>
         ) : (
           <>
-            <div className="space-y-6 mb-8">
+            {/* Instagram-style Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-8">
               {photos.map((photo) => (
-                <div key={photo.id} className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-amber-200/50 overflow-hidden">
-                  <div 
-                    className="relative aspect-square cursor-pointer hover:opacity-95 transition-all duration-300 group"
-                    onClick={() => setSelectedPhoto(photo)}
-                  >
-                    <Image
-                      src={photo.cloudFrontUrl}
-                      alt={photo.originalName}
-                      fill
-                      className="object-cover"
-                      sizes="100vw"
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-                      <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100 shadow-lg border border-amber-200">
-                        <span className="text-2xl">🔍</span>
-                      </div>
-                    </div>
-                    <div className="absolute top-3 right-3 bg-amber-400/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                      タップして拡大
+                <div 
+                  key={photo.id} 
+                  className="relative aspect-square bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group border border-amber-100"
+                  onClick={() => setSelectedPhoto(photo)}
+                >
+                  <Image
+                    src={photo.cloudFrontUrl}
+                    alt={photo.originalName}
+                    fill
+                    className="object-contain bg-gradient-to-br from-amber-50 to-rose-50 group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 640px) 50vw, 33vw"
+                  />
+                  
+                  {/* Overlay with info preview */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <div className="absolute bottom-2 left-2 right-2">
+                      {photo.nickname && (
+                        <p className="text-white text-xs font-semibold mb-1 truncate">
+                          💝 {photo.nickname}
+                        </p>
+                      )}
+                      {photo.comment && (
+                        <p className="text-white text-xs opacity-90 line-clamp-2 leading-tight">
+                          {photo.comment}
+                        </p>
+                      )}
                     </div>
                   </div>
-                  <div className="p-6">
-                    {photo.nickname && (
-                      <div className="mb-4">
-                        <p className="text-base font-semibold text-amber-800 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 px-4 py-3 rounded-xl flex items-center gap-2">
-                          <span className="text-lg">💝</span> {photo.nickname}
-                        </p>
-                      </div>
-                    )}
-                    {photo.comment && (
-                      <div className="mb-4">
-                        <p className="text-amber-900 leading-relaxed bg-gradient-to-r from-rose-50 to-pink-50 border border-rose-200 p-4 rounded-xl flex items-start gap-2">
-                          <span className="text-lg flex-shrink-0 mt-0.5">💭</span>
-                          <span>{photo.comment}</span>
-                        </p>
-                      </div>
-                    )}
-                    <div className="text-sm text-amber-600 space-y-2 bg-amber-50/50 p-3 rounded-xl">
-                      <p className="flex items-center gap-2">
-                        <span className="text-base">📎</span>
-                        <span className="font-light">{photo.originalName}</span>
-                      </p>
-                      <p className="flex items-center gap-2">
-                        <span className="text-base">🕰️</span>
-                        <span className="font-light">{new Date(photo.uploadedAt).toLocaleString('ja-JP', {
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        })}</span>
-                      </p>
-                    </div>
+                  
+                  {/* Hover zoom indicator */}
+                  <div className="absolute top-2 right-2 bg-white/90 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100 shadow-lg">
+                    <span className="text-amber-600 text-sm">🔍</span>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="text-center bg-white/90 backdrop-blur-md rounded-2xl border border-amber-200/50 p-6 shadow-lg">
-              <div className="text-3xl mb-3">🎉</div>
-              <p className="text-amber-800 font-serif text-lg mb-1">
-                素敵な思い出が {photos.length} 枚
-              </p>
-              <p className="text-amber-600 text-sm font-light">
-                Everyone's precious moments
-              </p>
+            {/* Photo count with Instagram-style design */}
+            <div className="text-center">
+              <div className="inline-flex items-center gap-3 bg-white/90 backdrop-blur-md rounded-full px-6 py-3 shadow-lg border border-amber-200/50">
+                <div className="w-2 h-2 rounded-full bg-gradient-to-r from-amber-400 to-rose-400"></div>
+                <p className="text-amber-800 font-medium text-sm">
+                  {photos.length} photos shared
+                </p>
+                <div className="w-2 h-2 rounded-full bg-gradient-to-r from-rose-400 to-pink-400"></div>
+              </div>
             </div>
           </>
         )}

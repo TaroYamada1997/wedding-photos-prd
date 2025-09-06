@@ -42,11 +42,13 @@ export default function GalleryPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 px-4 py-8">
-        <div className="max-w-md mx-auto">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-orange-100 px-4 py-8 relative overflow-hidden">
+        <div className="absolute bottom-32 left-6 text-5xl opacity-10 animate-pulse delay-1000">✨</div>
+        <div className="max-w-md mx-auto relative z-10">
           <div className="text-center">
-            <div className="w-16 h-16 border-4 border-pink-200 border-t-pink-500 rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-lg text-gray-600 font-medium">📷 写真を読み込み中...</p>
+            <div className="w-20 h-20 border-4 border-amber-300 border-t-amber-500 rounded-full animate-spin mx-auto mb-6 shadow-lg"></div>
+            <h2 className="text-2xl font-serif text-amber-900 mb-3">思い出を読み込み中</h2>
+            <p className="text-amber-700 font-light">Loading precious moments...</p>
           </div>
         </div>
       </div>
@@ -55,17 +57,21 @@ export default function GalleryPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 px-4 py-8">
-        <div className="max-w-md mx-auto">
-          <div className="bg-white rounded-xl shadow-lg p-6 text-center">
-            <div className="text-4xl mb-4">😞</div>
-            <p className="text-red-600 text-lg mb-6 font-medium">{error}</p>
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-orange-100 px-4 py-8 relative overflow-hidden">
+        <div className="absolute bottom-32 left-6 text-5xl opacity-10 animate-pulse delay-1000">✨</div>
+        <div className="max-w-md mx-auto relative z-10">
+          <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-amber-200/50 p-8 text-center">
+            <div className="text-5xl mb-6">😢</div>
+            <h2 className="text-2xl font-serif text-amber-900 mb-4">おっと...</h2>
+            <p className="text-amber-700 text-lg mb-8 font-light leading-relaxed">{error}</p>
             <Link
               href="/"
-              className="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-xl transition-colors active:bg-pink-700 flex items-center justify-center gap-2"
+              className="group w-full bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400 hover:from-amber-500 hover:via-amber-600 hover:to-orange-500 text-white font-semibold py-4 px-6 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl active:scale-98 border border-amber-300 flex items-center justify-center gap-3"
             >
-              <span className="text-xl">🏠</span>
-              ホームに戻る
+              <div>
+                <div className="font-semibold">ホームに戻る</div>
+                <div className="text-sm opacity-90">Go back home</div>
+              </div>
             </Link>
           </div>
         </div>
@@ -74,57 +80,70 @@ export default function GalleryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 px-4 py-6">
-      <div className="max-w-md mx-auto">
-        <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">
-            🖼️ みんなのアップロード
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-orange-100 px-4 py-6 relative overflow-hidden">      
+      <div className="max-w-md mx-auto relative z-10">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-serif text-amber-900 mb-3 leading-tight tracking-wide">
+            Wedding
+            <span className="block text-2xl font-light text-amber-700 mt-1">
+              Photo Gallery
+            </span>
           </h1>
-          <p className="text-gray-600 text-sm mb-6">
-            皆様から投稿された<br />素敵な写真たち
+          <div className="w-20 h-0.5 bg-gradient-to-r from-amber-400 to-rose-400 mx-auto mb-4"></div>
+          <p className="text-amber-800 text-base leading-relaxed font-light mb-6">
+            皆様からの素敵な<br />
+            <span className="font-medium">思い出をご覧ください</span>
           </p>
-          <div className="space-y-2">
+          <div className="space-y-3">
             <Link
               href="/upload"
-              className="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-xl transition-colors active:bg-pink-700 flex items-center justify-center gap-2"
+              className="group w-full bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400 hover:from-amber-500 hover:via-amber-600 hover:to-orange-500 text-white font-semibold py-4 px-6 rounded-2xl text-base transition-all duration-300 shadow-lg hover:shadow-xl active:scale-98 border border-amber-300 flex items-center justify-center gap-3"
             >
-              <span className="text-lg">📸</span>
-              写真をアップロード
+              <div>
+                <div className="font-semibold">写真をアップロード</div>
+                <div className="text-xs opacity-90">Share your moment</div>
+              </div>
             </Link>
             <Link
               href="/"
-              className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-4 rounded-xl transition-colors active:bg-gray-300 flex items-center justify-center gap-2"
+              className="group w-full bg-white/80 hover:bg-white border-2 border-amber-200 hover:border-amber-300 text-amber-800 hover:text-amber-900 font-semibold py-4 px-6 rounded-2xl text-base transition-all duration-300 shadow-lg hover:shadow-xl text-center flex items-center justify-center gap-3 backdrop-blur-sm"
             >
-              <span className="text-lg">🏠</span>
-              ホームに戻る
+              <div>
+                <div className="font-semibold">ホームに戻る</div>
+                <div className="text-xs opacity-80">Go back home</div>
+              </div>
             </Link>
           </div>
         </div>
 
         {photos.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-lg p-8 text-center">
-            <div className="text-6xl mb-4">📷</div>
-            <h2 className="text-lg font-bold text-gray-800 mb-3">
+          <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-amber-200/50 p-10 text-center">
+            <div className="text-6xl mb-6">🌸</div>
+            <h2 className="text-2xl font-serif text-amber-900 mb-4">
               まだ写真がありません
             </h2>
-            <p className="text-gray-600 text-sm mb-6 leading-relaxed">
-              結婚式の素敵な瞬間を<br />シェアしてください！
+            <p className="text-amber-700 text-base mb-8 leading-relaxed font-light">
+              結婚式の素敵な瞬間を<br />
+              <span className="font-medium">皆様と共有してください</span>
             </p>
             <Link
               href="/upload"
-              className="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-4 px-6 rounded-xl transition-colors active:bg-pink-700 flex items-center justify-center gap-2"
+              className="group w-full bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400 hover:from-amber-500 hover:via-amber-600 hover:to-orange-500 text-white font-semibold py-5 px-8 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl active:scale-98 border border-amber-300 flex items-center justify-center gap-4"
             >
-              <span className="text-xl">✨</span>
-              最初の写真をアップロード
+              <span className="text-2xl group-hover:scale-110 transition-transform">✨</span>
+              <div>
+                <div className="font-semibold">最初の写真を投稿</div>
+                <div className="text-sm opacity-90">Be the first to share</div>
+              </div>
             </Link>
           </div>
         ) : (
           <>
-            <div className="space-y-4 mb-6">
+            <div className="space-y-6 mb-8">
               {photos.map((photo) => (
-                <div key={photo.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div key={photo.id} className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-amber-200/50 overflow-hidden">
                   <div 
-                    className="relative aspect-square cursor-pointer hover:opacity-95 transition-opacity"
+                    className="relative aspect-square cursor-pointer hover:opacity-95 transition-all duration-300 group"
                     onClick={() => setSelectedPhoto(photo)}
                   >
                     <Image
@@ -134,40 +153,45 @@ export default function GalleryPage() {
                       className="object-cover"
                       sizes="100vw"
                     />
-                    <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-all duration-200 flex items-center justify-center">
-                      <div className="bg-white/80 backdrop-blur-sm rounded-full p-2 opacity-0 hover:opacity-100 transition-opacity">
-                        <span className="text-xl">🔍</span>
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                      <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100 shadow-lg border border-amber-200">
+                        <span className="text-2xl">🔍</span>
                       </div>
                     </div>
+                    <div className="absolute top-3 right-3 bg-amber-400/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                      タップして拡大
+                    </div>
                   </div>
-                  <div className="p-4">
+                  <div className="p-6">
                     {photo.nickname && (
-                      <div className="mb-3">
-                        <p className="text-sm font-semibold text-pink-600 bg-pink-50 px-3 py-2 rounded-lg">
-                          👤 {photo.nickname}
+                      <div className="mb-4">
+                        <p className="text-base font-semibold text-amber-800 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 px-4 py-3 rounded-xl flex items-center gap-2">
+                          <span className="text-lg">💝</span> {photo.nickname}
                         </p>
                       </div>
                     )}
                     {photo.comment && (
-                      <div className="mb-3">
-                        <p className="text-gray-800 leading-relaxed bg-gray-50 p-3 rounded-lg">
-                          💬 {photo.comment}
+                      <div className="mb-4">
+                        <p className="text-amber-900 leading-relaxed bg-gradient-to-r from-rose-50 to-pink-50 border border-rose-200 p-4 rounded-xl flex items-start gap-2">
+                          <span className="text-lg flex-shrink-0 mt-0.5">💭</span>
+                          <span>{photo.comment}</span>
                         </p>
                       </div>
                     )}
-                    <div className="text-xs text-gray-500 space-y-1">
-                      <p className="flex items-center gap-1">
-                        <span>📎</span>
-                        {photo.originalName}
+                    <div className="text-sm text-amber-600 space-y-2 bg-amber-50/50 p-3 rounded-xl">
+                      <p className="flex items-center gap-2">
+                        <span className="text-base">📎</span>
+                        <span className="font-light">{photo.originalName}</span>
                       </p>
-                      <p className="flex items-center gap-1">
-                        <span>🕐</span>
-                        {new Date(photo.uploadedAt).toLocaleString('ja-JP', {
+                      <p className="flex items-center gap-2">
+                        <span className="text-base">🕰️</span>
+                        <span className="font-light">{new Date(photo.uploadedAt).toLocaleString('ja-JP', {
+                          year: 'numeric',
                           month: 'short',
                           day: 'numeric',
                           hour: '2-digit',
                           minute: '2-digit'
-                        })}
+                        })}</span>
                       </p>
                     </div>
                   </div>
@@ -175,57 +199,82 @@ export default function GalleryPage() {
               ))}
             </div>
 
-            <div className="text-center bg-white/70 rounded-xl p-4">
-              <p className="text-gray-600 font-medium">
-                📊 全 {photos.length} 枚の写真が投稿されています
+            <div className="text-center bg-white/90 backdrop-blur-md rounded-2xl border border-amber-200/50 p-6 shadow-lg">
+              <div className="text-3xl mb-3">🎉</div>
+              <p className="text-amber-800 font-serif text-lg mb-1">
+                素敵な思い出が {photos.length} 枚
+              </p>
+              <p className="text-amber-600 text-sm font-light">
+                Everyone's precious moments
               </p>
             </div>
           </>
         )}
 
-        {/* Image Modal */}
+        {/* Elegant Image Modal */}
         {selectedPhoto && (
-          <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-            <div className="relative max-w-4xl max-h-full w-full h-full flex flex-col">
-              {/* Close Button */}
+          <div className="fixed inset-0 bg-gradient-to-br from-black/80 via-amber-900/20 to-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-300">
+            <div className="relative max-w-4xl max-h-full w-full h-full flex flex-col animate-in zoom-in-95 duration-300">
+              {/* Elegant Close Button */}
               <button
                 onClick={() => setSelectedPhoto(null)}
-                className="absolute top-4 right-4 z-10 bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg transition-all active:scale-95"
+                className="absolute top-6 right-6 z-20 bg-white/95 hover:bg-white text-amber-800 hover:text-amber-900 rounded-full p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 border border-amber-200"
               >
-                <span className="text-xl">×</span>
+                <span className="text-2xl font-light">×</span>
               </button>
               
-              {/* Image Container */}
-              <div className="flex-1 relative mb-4">
+              {/* Decorative Corner Elements */}
+              <div className="absolute top-4 left-4 text-2xl text-white/20 z-10">✨</div>
+              <div className="absolute bottom-4 right-4 text-2xl text-white/20 z-10">🌸</div>
+              
+              {/* Image Container with Elegant Frame */}
+              <div className="flex-1 relative mb-6 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20">
                 <Image
                   src={selectedPhoto.cloudFrontUrl}
                   alt={selectedPhoto.originalName}
                   fill
-                  className="object-contain"
+                  className="object-contain bg-white/5"
                   sizes="100vw"
                 />
+                <div className="absolute inset-0 rounded-3xl ring-1 ring-white/10"></div>
               </div>
               
-              {/* Photo Info */}
-              <div className="bg-white rounded-xl p-4 space-y-3 max-h-32 overflow-y-auto">
+              {/* Elegant Photo Info Card */}
+              <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-amber-200/50 p-6 space-y-4 max-h-40 overflow-y-auto">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-12 h-0.5 bg-gradient-to-r from-amber-400 to-rose-400"></div>
+                </div>
+                
                 {selectedPhoto.nickname && (
-                  <p className="text-sm font-semibold text-pink-600">
-                    👤 {selectedPhoto.nickname}
-                  </p>
+                  <div className="text-center">
+                    <p className="text-lg font-serif text-amber-900 flex items-center justify-center gap-2">
+                      <span className="text-xl">💝</span> {selectedPhoto.nickname}
+                    </p>
+                  </div>
                 )}
+                
                 {selectedPhoto.comment && (
-                  <p className="text-gray-800 leading-relaxed">
-                    💬 {selectedPhoto.comment}
-                  </p>
+                  <div className="text-center">
+                    <p className="text-amber-800 leading-relaxed font-light italic flex items-start justify-center gap-2 text-base">
+                      <span className="text-lg flex-shrink-0 mt-0.5">💭</span>
+                      <span>"{selectedPhoto.comment}"</span>
+                    </p>
+                  </div>
                 )}
-                <div className="text-xs text-gray-500 flex gap-4">
-                  <span>📎 {selectedPhoto.originalName}</span>
-                  <span>🕐 {new Date(selectedPhoto.uploadedAt).toLocaleString('ja-JP', {
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}</span>
+                
+                <div className="flex justify-center gap-6 text-sm text-amber-600 font-light pt-3 border-t border-amber-200/50">
+                  <span className="flex items-center gap-1">
+                    <span>📷</span> {selectedPhoto.originalName}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span>🕰️</span> {new Date(selectedPhoto.uploadedAt).toLocaleString('ja-JP', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </span>
                 </div>
               </div>
             </div>

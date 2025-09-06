@@ -7,6 +7,7 @@ import Link from 'next/link';
 export default function UploadPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [comment, setComment] = useState('');
+  const [nickname, setNickname] = useState('');
   const [uploading, setUploading] = useState(false);
   const router = useRouter();
 
@@ -23,6 +24,11 @@ export default function UploadPage() {
 
   const handleUpload = async () => {
     if (!selectedFile) return;
+    
+    if (!nickname.trim()) {
+      alert('ニックネームを入力してください');
+      return;
+    }
 
     setUploading(true);
     try {
@@ -65,6 +71,7 @@ export default function UploadPage() {
           originalName: selectedFile.name,
           s3Key: key,
           comment: comment.trim() || null,
+          nickname: nickname.trim() || null,
         }),
       });
 
@@ -123,6 +130,24 @@ export default function UploadPage() {
 
           <div>
             <label className="block text-base font-semibold text-gray-800 mb-3">
+              ニックネーム <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              placeholder="お名前やニックネームを入力してください..."
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors text-base text-gray-800 placeholder-gray-400 bg-white"
+              required
+              maxLength={50}
+            />
+            <p className="text-xs text-gray-500 mt-2">
+              {nickname.length}/50文字
+            </p>
+          </div>
+
+          <div>
+            <label className="block text-base font-semibold text-gray-800 mb-3">
               ひとこと（任意）
             </label>
             <textarea
@@ -146,7 +171,7 @@ export default function UploadPage() {
           <div className="space-y-3 pt-2">
             <button
               onClick={handleUpload}
-              disabled={!selectedFile || uploading}
+              disabled={!selectedFile || !nickname.trim() || uploading}
               className="w-full bg-pink-500 hover:bg-pink-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-4 px-6 rounded-xl text-lg transition-colors duration-200 shadow-lg active:bg-pink-700 flex items-center justify-center gap-2"
             >
               {uploading ? (

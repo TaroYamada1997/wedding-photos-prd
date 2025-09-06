@@ -14,11 +14,17 @@ export async function POST() {
         "s3Key" TEXT NOT NULL,
         "cloudFrontUrl" TEXT NOT NULL,
         "comment" TEXT,
+        "nickname" TEXT,
         "uploadedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
         "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
         "updatedAt" TIMESTAMP(3) NOT NULL,
         CONSTRAINT "photos_pkey" PRIMARY KEY ("id")
       );
+    `;
+    
+    // Add nickname column if it doesn't exist (for existing tables)
+    await prisma.$executeRaw`
+      ALTER TABLE "photos" ADD COLUMN IF NOT EXISTS "nickname" TEXT;
     `;
     
     await prisma.$executeRaw`

@@ -4,11 +4,11 @@ import { getCloudFrontUrl } from '@/lib/s3';
 
 export async function POST(request: NextRequest) {
   try {
-    const { filename, originalName, s3Key, comment } = await request.json();
+    const { filename, originalName, s3Key, comment, nickname } = await request.json();
 
-    if (!filename || !originalName || !s3Key) {
+    if (!filename || !originalName || !s3Key || !nickname?.trim()) {
       return NextResponse.json(
-        { error: 'Filename, original name, and S3 key are required' },
+        { error: 'Filename, original name, S3 key, and nickname are required' },
         { status: 400 }
       );
     }
@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
         s3Key,
         cloudFrontUrl,
         comment: comment || null,
+        nickname: nickname.trim(),
       },
     });
 

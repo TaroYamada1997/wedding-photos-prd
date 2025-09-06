@@ -21,6 +21,7 @@ model Photo {
   s3Key       String   @unique
   cloudFrontUrl String
   comment     String?
+  nickname    String?
   uploadedAt  DateTime @default(now())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

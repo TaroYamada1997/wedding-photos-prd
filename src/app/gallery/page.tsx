@@ -10,6 +10,7 @@ interface Photo {
   originalName: string;
   cloudFrontUrl: string;
   comment: string | null;
+  nickname: string | null;
   uploadedAt: string;
 }
 
@@ -17,6 +18,7 @@ export default function GalleryPage() {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
 
   useEffect(() => {
     const fetchPhotos = async () => {
@@ -121,7 +123,10 @@ export default function GalleryPage() {
             <div className="space-y-4 mb-6">
               {photos.map((photo) => (
                 <div key={photo.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
-                  <div className="relative aspect-square">
+                  <div 
+                    className="relative aspect-square cursor-pointer hover:opacity-95 transition-opacity"
+                    onClick={() => setSelectedPhoto(photo)}
+                  >
                     <Image
                       src={photo.cloudFrontUrl}
                       alt={photo.originalName}
@@ -129,8 +134,20 @@ export default function GalleryPage() {
                       className="object-cover"
                       sizes="100vw"
                     />
+                    <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-all duration-200 flex items-center justify-center">
+                      <div className="bg-white/80 backdrop-blur-sm rounded-full p-2 opacity-0 hover:opacity-100 transition-opacity">
+                        <span className="text-xl">🔍</span>
+                      </div>
+                    </div>
                   </div>
                   <div className="p-4">
+                    {photo.nickname && (
+                      <div className="mb-3">
+                        <p className="text-sm font-semibold text-pink-600 bg-pink-50 px-3 py-2 rounded-lg">
+                          👤 {photo.nickname}
+                        </p>
+                      </div>
+                    )}
                     {photo.comment && (
                       <div className="mb-3">
                         <p className="text-gray-800 leading-relaxed bg-gray-50 p-3 rounded-lg">
@@ -164,6 +181,55 @@ export default function GalleryPage() {
               </p>
             </div>
           </>
+        )}
+
+        {/* Image Modal */}
+        {selectedPhoto && (
+          <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+            <div className="relative max-w-4xl max-h-full w-full h-full flex flex-col">
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedPhoto(null)}
+                className="absolute top-4 right-4 z-10 bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg transition-all active:scale-95"
+              >
+                <span className="text-xl">×</span>
+              </button>
+              
+              {/* Image Container */}
+              <div className="flex-1 relative mb-4">
+                <Image
+                  src={selectedPhoto.cloudFrontUrl}
+                  alt={selectedPhoto.originalName}
+                  fill
+                  className="object-contain"
+                  sizes="100vw"
+                />
+              </div>
+              
+              {/* Photo Info */}
+              <div className="bg-white rounded-xl p-4 space-y-3 max-h-32 overflow-y-auto">
+                {selectedPhoto.nickname && (
+                  <p className="text-sm font-semibold text-pink-600">
+                    👤 {selectedPhoto.nickname}
+                  </p>
+                )}
+                {selectedPhoto.comment && (
+                  <p className="text-gray-800 leading-relaxed">
+                    💬 {selectedPhoto.comment}
+                  </p>
+                )}
+                <div className="text-xs text-gray-500 flex gap-4">
+                  <span>📎 {selectedPhoto.originalName}</span>
+                  <span>🕐 {new Date(selectedPhoto.uploadedAt).toLocaleString('ja-JP', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>

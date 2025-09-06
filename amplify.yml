@@ -19,6 +19,12 @@ frontend:
         - npx prisma migrate deploy || (echo "Migration failed, trying db push..." && npx prisma db push --accept-data-loss)
     build:
       commands:
+        - echo "DATABASE_URL=$DATABASE_URL" >> .env
+        - echo "S3_REGION=$S3_REGION" >> .env
+        - echo "S3_BUCKET_NAME=$S3_BUCKET_NAME" >> .env
+        - echo "S3_ACCESS_KEY_ID=$S3_ACCESS_KEY_ID" >> .env
+        - echo "S3_SECRET_ACCESS_KEY=$S3_SECRET_ACCESS_KEY" >> .env
+        - echo "CLOUDFRONT_DOMAIN=$CLOUDFRONT_DOMAIN" >> .env
         - npm run build
   artifacts:
     baseDirectory: .next

@@ -238,7 +238,7 @@ export default function GalleryPage() {
                   <div className="text-center">
                     <p className="text-amber-800 leading-relaxed font-light italic flex items-start justify-center gap-2 text-base">
                       <span className="text-lg flex-shrink-0 mt-0.5">💭</span>
-                      <span>"{selectedPhoto.comment}"</span>
+                      <span>&ldquo;{selectedPhoto.comment}&rdquo;</span>
                     </p>
                   </div>
                 )}

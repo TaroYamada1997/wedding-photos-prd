@@ -1,0 +1,144 @@
+@startuml
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v14.0/dist
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/General/Users.puml
+!include AWSPuml/Groups/AWSCloud.puml
+!include AWSPuml/Groups/Generic.puml
+!include AWSPuml/NetworkingContentDelivery/CloudFront.puml
+!include AWSPuml/Storage/SimpleStorageService.puml
+!include AWSPuml/Compute/LambdaLambdaFunction.puml
+!include AWSPuml/FrontEndWebMobile/Amplify.puml
+
+title Wedding Photo Upload App - AWS Architecture
+
+skinparam shadowing false
+hide stereotype
+skinparam linetype ortho
+
+!procedure $stepnum($number) 
+<back:royalblue><color:white><b> $number </b></color></back>
+!endprocedure
+
+rectangle "$UsersIMG()\nUsers\n(Mobile/Desktop)" as users
+
+' External Neon Database (outside AWS Cloud)
+rectangle "🐘 Neon PostgreSQL\nExternal Cloud DB\nServerless Postgres" as neon #00E5FF
+
+AWSCloudGroup(aws) {
+    rectangle "$AmplifyIMG()\nAWS Amplify\nNext.js 15 App\nSSR/Static Hosting" as amplify
+    
+    rectangle "$CloudFrontIMG()\nAmazon CloudFront\nGlobal Content Delivery\nCaching & HTTPS" as cloudfront
+    
+    rectangle "$SimpleStorageServiceIMG()\nAmazon S3\nshota-wedding-photos-bucket\nPhoto Storage" as s3
+    
+    GenericGroup(lambdas, Lambda Functions) {
+        rectangle "$LambdaLambdaFunctionIMG()\napi/upload\nGenerate Presigned URLs" as lambda1 #Transparent
+        rectangle "$LambdaLambdaFunctionIMG()\napi/photos\nCRUD Operations" as lambda2 #Transparent
+        rectangle "$LambdaLambdaFunctionIMG()\napi/debug-env\nHealth Check" as lambda3 #Transparent
+        rectangle "$LambdaLambdaFunctionIMG()\napi/migrate\nDB Schema Setup" as lambda4 #Transparent
+    }
+    
+    rectangle "$IdentityAccessManagementIMG()\nAWS IAM\nS3 Access Permissions\nLambda Execution" as iam
+}
+
+' Data Flow - User Upload Journey
+users -> cloudfront : $stepnum("1") Access Web App (HTTPS)
+cloudfront -> amplify : $stepnum("2") Serve Next.js App
+amplify -> cloudfront : $stepnum("3") HTML/CSS/JS
+cloudfront -> users : $stepnum("4") Rendered App
+
+users -> amplify : $stepnum("5") Upload Photo Request
+amplify -> lambda1 : $stepnum("6") POST /api/upload
+lambda1 -> s3 : $stepnum("7") Generate Presigned URL
+s3 -> lambda1 : $stepnum("8") Return Signed URL
+lambda1 -> amplify : $stepnum("9") Presigned URL Response
+amplify -> users : $stepnum("10") Client Direct Upload
+
+users -> s3 : $stepnum("11") PUT Photo (Direct Upload)
+
+' Data Flow - Save Metadata
+users -> amplify : $stepnum("12") Save Photo Metadata
+amplify -> lambda2 : $stepnum("13") POST /api/photos
+lambda2 -> neon : $stepnum("14") INSERT Photo Record
+neon -> lambda2 : $stepnum("15") Success Response
+lambda2 -> amplify : $stepnum("16") Saved Confirmation
+
+' Data Flow - View Gallery
+users -> amplify : $stepnum("17") View Gallery
+amplify -> lambda2 : $stepnum("18") GET /api/photos
+lambda2 -> neon : $stepnum("19") SELECT Photos
+neon -> lambda2 : $stepnum("20") Photo Records
+lambda2 -> amplify : $stepnum("21") Photo List
+amplify -> cloudfront : $stepnum("22") Request Images
+cloudfront -> s3 : $stepnum("23") Fetch Images
+s3 -> cloudfront : $stepnum("24") Image Data
+cloudfront -> amplify : $stepnum("25") Cached Images
+amplify -> users : $stepnum("26") Gallery with Photos
+
+' Security & Permission Flow
+iam -> lambda1
+iam -> lambda2
+iam -> lambda3
+iam -> lambda4
+iam -> s3
+
+' Notes with configuration details
+note right of amplify
+Environment Variables:
+- DATABASE_URL (Neon connection)
+- S3_BUCKET_NAME
+- S3_ACCESS_KEY_ID
+- S3_SECRET_ACCESS_KEY
+- CLOUDFRONT_DOMAIN
+end note
+
+note right of neon
+Neon PostgreSQL Features:
+- Serverless PostgreSQL
+- Auto-scaling
+- Branch management
+- Global availability
+- Connection pooling
+
+Tables:
+- photos (id, nickname, comment,
+  s3Key, cloudFrontUrl, uploadedAt)
+end note
+
+note right of s3
+S3 Configuration:
+- Private bucket
+- Presigned URL access
+- CloudFront origin
+- Lifecycle policies
+- CORS enabled
+
+Storage Structure:
+- /photos/{timestamp}-{filename}
+end note
+
+note left of users
+Application Features:
+- Mobile-first responsive design
+- Photo upload with presigned URLs
+- Nickname (max 15 chars)
+- Comments (max 50 chars)
+- Instagram-style grid gallery
+- Image zoom modal
+- Elegant wedding theme
+end note
+
+note top of aws
+Tech Stack:
+- Frontend: Next.js 15 (React)
+- Hosting: AWS Amplify
+- Database: Neon PostgreSQL
+- Storage: AWS S3
+- CDN: AWS CloudFront
+- Compute: AWS Lambda (serverless)
+- Styling: Tailwind CSS
+- ORM: Prisma
+- Design: Instagram-style gallery
+end note
+
+@enduml

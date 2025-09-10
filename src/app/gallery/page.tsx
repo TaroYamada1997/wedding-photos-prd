@@ -97,7 +97,7 @@ export default function GalleryPage() {
           <div className="space-y-3">
             <Link
               href="/upload"
-              className="group w-full bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400 hover:from-amber-500 hover:via-amber-600 hover:to-orange-500 text-white font-semibold py-4 px-6 rounded-2xl text-base transition-all duration-300 shadow-lg hover:shadow-xl active:scale-98 border border-amber-300 flex items-center justify-center gap-3"
+              className="group w-full bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400 hover:from-amber-500 hover:via-amber-600 hover:to-orange-500 text-white font-semibold py-4 px-6 rounded-2xl text-lg transition-all duration-300 shadow-lg hover:shadow-xl active:scale-98 border border-amber-300 flex items-center justify-center gap-3"
             >
               <div>
                 <div className="font-semibold">写真をアップロード</div>
@@ -106,7 +106,7 @@ export default function GalleryPage() {
             </Link>
             <Link
               href="/"
-              className="group w-full bg-white/80 hover:bg-white border-2 border-amber-200 hover:border-amber-300 text-amber-800 hover:text-amber-900 font-semibold py-4 px-6 rounded-2xl text-base transition-all duration-300 shadow-lg hover:shadow-xl text-center flex items-center justify-center gap-3 backdrop-blur-sm"
+              className="group w-full bg-white/80 hover:bg-white border-2 border-amber-200 hover:border-amber-300 text-amber-800 hover:text-amber-900 font-semibold py-4 px-6 rounded-2xl text-lg transition-all duration-300 shadow-lg hover:shadow-xl text-center flex items-center justify-center gap-3 backdrop-blur-sm"
             >
               <div>
                 <div className="font-semibold">ホームに戻る</div>
@@ -118,7 +118,6 @@ export default function GalleryPage() {
 
         {photos.length === 0 ? (
           <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-amber-200/50 p-10 text-center">
-            <div className="text-6xl mb-6">🌸</div>
             <h2 className="text-2xl font-serif text-amber-900 mb-4">
               まだ写真がありません
             </h2>
@@ -128,7 +127,7 @@ export default function GalleryPage() {
             </p>
             <Link
               href="/upload"
-              className="group w-full bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400 hover:from-amber-500 hover:via-amber-600 hover:to-orange-500 text-white font-semibold py-5 px-8 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl active:scale-98 border border-amber-300 flex items-center justify-center gap-4"
+              className="group w-full bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400 hover:from-amber-500 hover:via-amber-600 hover:to-orange-500 text-white font-semibold py-4 px-6 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl active:scale-98 border border-amber-300 flex items-center justify-center gap-4"
             >
               <span className="text-2xl group-hover:scale-110 transition-transform">✨</span>
               <div>
@@ -203,10 +202,6 @@ export default function GalleryPage() {
               >
                 <span className="text-2xl font-light">×</span>
               </button>
-              
-              {/* Decorative Corner Elements */}
-              <div className="absolute top-4 left-4 text-2xl text-white/20 z-10">✨</div>
-              <div className="absolute bottom-4 right-4 text-2xl text-white/20 z-10">🌸</div>
               
               {/* Image Container with Elegant Frame */}
               <div className="flex-1 relative mb-6 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20">

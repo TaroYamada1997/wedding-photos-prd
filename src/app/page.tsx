@@ -27,7 +27,7 @@ export default function Home() {
         <div className="space-y-5 mb-12">
           <Link
             href="/upload"
-            className="group w-full bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400 hover:from-amber-500 hover:via-amber-600 hover:to-orange-500 text-white font-semibold py-6 px-8 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center justify-center gap-4 active:scale-98 border border-amber-300"
+            className="group w-full bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400 hover:from-amber-500 hover:via-amber-600 hover:to-orange-500 text-white font-semibold py-4 px-6 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center justify-center gap-4 active:scale-98 border border-amber-300"
           >
             <div>
               <div className="text-lg font-semibold">写真をアップロード</div>
@@ -37,7 +37,7 @@ export default function Home() {
           
           <Link
             href="/gallery"
-            className="group w-full bg-gradient-to-r from-rose-400 via-pink-400 to-rose-500 hover:from-rose-500 hover:via-pink-500 hover:to-rose-600 text-white font-semibold py-6 px-8 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center justify-center gap-4 active:scale-98 border border-rose-300"
+            className="group w-full bg-gradient-to-r from-rose-400 via-pink-400 to-rose-500 hover:from-rose-500 hover:via-pink-500 hover:to-rose-600 text-white font-semibold py-4 px-6 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center justify-center gap-4 active:scale-98 border border-rose-300"
           >
             <div>
               <div className="text-lg font-semibold">みんなの写真</div>

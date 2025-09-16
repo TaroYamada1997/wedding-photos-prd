@@ -43,7 +43,6 @@ export default function GalleryPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-orange-100 px-4 py-8 relative overflow-hidden">
-        <div className="absolute bottom-32 left-6 text-5xl opacity-10 animate-pulse delay-1000">✨</div>
         <div className="max-w-md mx-auto relative z-10">
           <div className="text-center">
             <div className="w-20 h-20 border-4 border-amber-300 border-t-amber-500 rounded-full animate-spin mx-auto mb-6 shadow-lg"></div>
@@ -154,25 +153,20 @@ export default function GalleryPage() {
                     sizes="(max-width: 640px) 50vw, 33vw"
                   />
                   
-                  {/* Overlay with info preview */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <div className="absolute bottom-2 left-2 right-2">
+                  {/* Instagram-style overlay */}
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                    <div className="text-center text-white">
                       {photo.nickname && (
-                        <p className="text-white text-xs font-semibold mb-1 truncate">
-                          💝 {photo.nickname}
+                        <p className="text-sm font-semibold mb-1">
+                          {photo.nickname}
                         </p>
                       )}
                       {photo.comment && (
-                        <p className="text-white text-xs opacity-90 line-clamp-2 leading-tight">
+                        <p className="text-xs opacity-90 line-clamp-2 px-2">
                           {photo.comment}
                         </p>
                       )}
                     </div>
-                  </div>
-                  
-                  {/* Hover zoom indicator */}
-                  <div className="absolute top-2 right-2 bg-white/90 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100 shadow-lg">
-                    <span className="text-amber-600 text-sm">🔍</span>
                   </div>
                 </div>
               ))}
@@ -193,57 +187,53 @@ export default function GalleryPage() {
 
         {/* Elegant Image Modal */}
         {selectedPhoto && (
-          <div className="fixed inset-0 bg-gradient-to-br from-black/80 via-amber-900/20 to-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-300">
-            <div className="relative max-w-4xl max-h-full w-full h-full flex flex-col animate-in zoom-in-95 duration-300">
-              {/* Elegant Close Button */}
+          <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-300" onClick={() => setSelectedPhoto(null)}>
+            <div className="relative max-w-5xl max-h-full w-full flex flex-col animate-in zoom-in-95 duration-300" onClick={(e) => e.stopPropagation()}>
+              {/* Instagram-style Close Button */}
               <button
                 onClick={() => setSelectedPhoto(null)}
-                className="absolute top-6 right-6 z-20 bg-white/95 hover:bg-white text-amber-800 hover:text-amber-900 rounded-full p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 border border-amber-200"
+                className="absolute top-4 right-4 z-20 bg-black/50 hover:bg-black/70 text-white rounded-full w-8 h-8 flex items-center justify-center transition-all duration-200"
               >
-                <span className="text-2xl font-light">×</span>
+                <span className="text-lg">×</span>
               </button>
               
-              {/* Image Container with Elegant Frame */}
-              <div className="flex-1 relative mb-6 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20">
+              {/* Header with username - above image */}
+              {selectedPhoto.nickname && (
+                <div className="bg-white p-4 border-b border-gray-200 rounded-t-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                      <span className="text-sm font-semibold text-gray-600">{selectedPhoto.nickname.charAt(0).toUpperCase()}</span>
+                    </div>
+                    <span className="font-semibold text-gray-900">{selectedPhoto.nickname}</span>
+                  </div>
+                </div>
+              )}
+              
+              {/* Instagram-style Image Container */}
+              <div className={`relative bg-white overflow-hidden ${!selectedPhoto.nickname ? 'rounded-t-lg' : ''}`} style={{ minHeight: '60vh', maxHeight: '80vh' }}>
                 <Image
                   src={selectedPhoto.cloudFrontUrl}
                   alt={selectedPhoto.originalName}
                   fill
-                  className="object-contain bg-white/5"
+                  className="object-contain"
                   sizes="100vw"
                 />
-                <div className="absolute inset-0 rounded-3xl ring-1 ring-white/10"></div>
               </div>
               
-              {/* Elegant Photo Info Card */}
-              <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-amber-200/50 p-6 space-y-4 max-h-40 overflow-y-auto">
-                <div className="flex items-center justify-center mb-4">
-                  <div className="w-12 h-0.5 bg-gradient-to-r from-amber-400 to-rose-400"></div>
-                </div>
+              {/* Instagram-style Info Section */}
+              <div className="bg-white rounded-b-lg border-t border-gray-200">
                 
-                {selectedPhoto.nickname && (
-                  <div className="text-center">
-                    <p className="text-lg font-serif text-amber-900 flex items-center justify-center gap-2">
-                      <span className="text-xl">💝</span> {selectedPhoto.nickname}
-                    </p>
-                  </div>
-                )}
-                
+                {/* Comment section */}
                 {selectedPhoto.comment && (
-                  <div className="text-center">
-                    <p className="text-amber-800 leading-relaxed font-light italic flex items-start justify-center gap-2 text-base">
-                      <span className="text-lg flex-shrink-0 mt-0.5">💭</span>
-                      <span>&ldquo;{selectedPhoto.comment}&rdquo;</span>
-                    </p>
+                  <div className="p-4">
+                    <p className="text-gray-900">{selectedPhoto.comment}</p>
                   </div>
                 )}
                 
-                <div className="flex justify-center gap-6 text-sm text-amber-600 font-light pt-3 border-t border-amber-200/50">
-                  <span className="flex items-center gap-1">
-                    <span>📷</span> {selectedPhoto.originalName}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <span>🕰️</span> {new Date(selectedPhoto.uploadedAt).toLocaleString('ja-JP', {
+                {/* Timestamp */}
+                <div className="px-4 pb-4">
+                  <span className="text-xs text-gray-500 uppercase">
+                    {new Date(selectedPhoto.uploadedAt).toLocaleString('ja-JP', {
                       year: 'numeric',
                       month: 'short',
                       day: 'numeric',

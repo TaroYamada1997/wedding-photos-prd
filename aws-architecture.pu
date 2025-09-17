@@ -25,120 +25,69 @@ rectangle "$UsersIMG()\nUsers\n(Mobile/Desktop)" as users
 rectangle "🐘 Neon PostgreSQL\nExternal Cloud DB\nServerless Postgres" as neon #00E5FF
 
 AWSCloudGroup(aws) {
-    rectangle "$AmplifyIMG()\nAWS Amplify\nNext.js 15 App\nSSR/Static Hosting" as amplify
-    
+    ' Frontend Layer
     rectangle "$CloudFrontIMG()\nAmazon CloudFront\nGlobal Content Delivery\nCaching & HTTPS" as cloudfront
-    
+
+    rectangle "$AmplifyIMG()\nAWS Amplify\nNext.js 15 App Router\n• /api/upload\n• /api/photos\n• /api/debug-env\n• /api/migrate" as amplify
+
+    ' Storage Layer
     rectangle "$SimpleStorageServiceIMG()\nAmazon S3\nshota-wedding-photos-bucket\nPhoto Storage" as s3
-    
-    GenericGroup(lambdas, Lambda Functions) {
-        rectangle "$LambdaLambdaFunctionIMG()\napi/upload\nGenerate Presigned URLs" as lambda1 #Transparent
-        rectangle "$LambdaLambdaFunctionIMG()\napi/photos\nCRUD Operations" as lambda2 #Transparent
-        rectangle "$LambdaLambdaFunctionIMG()\napi/debug-env\nHealth Check" as lambda3 #Transparent
-        rectangle "$LambdaLambdaFunctionIMG()\napi/migrate\nDB Schema Setup" as lambda4 #Transparent
-    }
-    
+    ' Security Layer
     rectangle "$IdentityAccessManagementIMG()\nAWS IAM\nS3 Access Permissions\nLambda Execution" as iam
 }
 
-' Data Flow - User Upload Journey
-users -> cloudfront : $stepnum("1") Access Web App (HTTPS)
-cloudfront -> amplify : $stepnum("2") Serve Next.js App
-amplify -> cloudfront : $stepnum("3") HTML/CSS/JS
-cloudfront -> users : $stepnum("4") Rendered App
+' Layout positioning
+users -[hidden]down-> cloudfront
+cloudfront -[hidden]down-> amplify
+amplify -[hidden]down-> s3
+neon -[hidden]right-> aws
 
-users -> amplify : $stepnum("5") Upload Photo Request
-amplify -> lambda1 : $stepnum("6") POST /api/upload
-lambda1 -> s3 : $stepnum("7") Generate Presigned URL
-s3 -> lambda1 : $stepnum("8") Return Signed URL
-lambda1 -> amplify : $stepnum("9") Presigned URL Response
-amplify -> users : $stepnum("10") Client Direct Upload
+' Main Data Flow
+users --> cloudfront : $stepnum("1") Access Web App
+cloudfront --> amplify : $stepnum("2") Serve App
 
-users -> s3 : $stepnum("11") PUT Photo (Direct Upload)
+' Photo Upload Flow
+users --> amplify : $stepnum("3") Request Upload URL\n(/api/upload)
+amplify --> s3 : Generate Presigned URL
+users --> s3 : $stepnum("4") Direct Upload
 
-' Data Flow - Save Metadata
-users -> amplify : $stepnum("12") Save Photo Metadata
-amplify -> lambda2 : $stepnum("13") POST /api/photos
-lambda2 -> neon : $stepnum("14") INSERT Photo Record
-neon -> lambda2 : $stepnum("15") Success Response
-lambda2 -> amplify : $stepnum("16") Saved Confirmation
+' Metadata Flow
+users --> amplify : $stepnum("5") Save Metadata\n(/api/photos)
+amplify --> neon : Store via Prisma
 
-' Data Flow - View Gallery
-users -> amplify : $stepnum("17") View Gallery
-amplify -> lambda2 : $stepnum("18") GET /api/photos
-lambda2 -> neon : $stepnum("19") SELECT Photos
-neon -> lambda2 : $stepnum("20") Photo Records
-lambda2 -> amplify : $stepnum("21") Photo List
-amplify -> cloudfront : $stepnum("22") Request Images
-cloudfront -> s3 : $stepnum("23") Fetch Images
-s3 -> cloudfront : $stepnum("24") Image Data
-cloudfront -> amplify : $stepnum("25") Cached Images
-amplify -> users : $stepnum("26") Gallery with Photos
+' Gallery View Flow
+users --> amplify : $stepnum("6") Get Photos\n(/api/photos)
+amplify <-- neon : Photo List via Prisma
+users <-- cloudfront : $stepnum("7") View Gallery
+cloudfront <-- s3 : Cached Images
 
 ' Security & Permission Flow
-iam -> lambda1
-iam -> lambda2
-iam -> lambda3
-iam -> lambda4
-iam -> s3
+iam -.-> amplify : S3 Access Credentials
+iam -.-> s3 : Access Permissions
 
-' Notes with configuration details
-note right of amplify
-Environment Variables:
-- DATABASE_URL (Neon connection)
-- S3_BUCKET_NAME
-- S3_ACCESS_KEY_ID
-- S3_SECRET_ACCESS_KEY
-- CLOUDFRONT_DOMAIN
+' Key Components Overview
+note top of cloudfront
+<b>Wedding Photo Upload App</b>
+・Next.js 15 App Router + Tailwind CSS
+・API Routes in Amplify
+・Instagram-style gallery
+・Mobile-first design
 end note
 
 note right of neon
-Neon PostgreSQL Features:
-- Serverless PostgreSQL
-- Auto-scaling
-- Branch management
-- Global availability
-- Connection pooling
-
-Tables:
-- photos (id, nickname, comment,
-  s3Key, cloudFrontUrl, uploadedAt)
+<b>Database Schema (Prisma)</b>
+photos table:
+・id, nickname, comment
+・s3Key, cloudFrontUrl
+・uploadedAt
 end note
 
-note right of s3
-S3 Configuration:
-- Private bucket
-- Presigned URL access
-- CloudFront origin
-- Lifecycle policies
-- CORS enabled
-
-Storage Structure:
-- /photos/{timestamp}-{filename}
-end note
-
-note left of users
-Application Features:
-- Mobile-first responsive design
-- Photo upload with presigned URLs
-- Nickname (max 15 chars)
-- Comments (max 50 chars)
-- Instagram-style grid gallery
-- Image zoom modal
-- Elegant wedding theme
-end note
-
-note top of aws
-Tech Stack:
-- Frontend: Next.js 15 (React)
-- Hosting: AWS Amplify
-- Database: Neon PostgreSQL
-- Storage: AWS S3
-- CDN: AWS CloudFront
-- Compute: AWS Lambda (serverless)
-- Styling: Tailwind CSS
-- ORM: Prisma
-- Design: Instagram-style gallery
+note bottom of s3
+<b>Storage</b>
+・Private S3 bucket
+・Presigned URL upload
+・CloudFront CDN
+・/photos/{timestamp}-{filename}
 end note
 
 @enduml

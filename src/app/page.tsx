@@ -18,8 +18,8 @@ export default function Home() {
             <div className="w-24 h-0.5 bg-gradient-to-r from-amber-400 to-rose-400 mx-auto mb-6"></div>
           </div>
           <p className="text-lg text-amber-800 leading-relaxed font-light">
-            本日の大切な瞬間を<br />
-            <span className="font-medium">私たちに共有してくれますか</span>
+            今日という1日を<br />
+            <span className="font-medium">写真に残してみませんか？</span>
           </p>
         </div>
 
@@ -75,7 +75,7 @@ export default function Home() {
               <div>
                 <h3 className="text-amber-900 font-semibold mb-1">コメントを添える（任意）</h3>
                 <p className="text-amber-700 leading-relaxed text-sm">
-                  写真に思い出のメッセージを添えてください
+                  写真にひとことのメッセージを添えてください
                 </p>
               </div>
             </div>
@@ -85,9 +85,9 @@ export default function Home() {
                 3
               </div>
               <div>
-                <h3 className="text-amber-900 font-semibold mb-1">思い出を見る</h3>
+                <h3 className="text-amber-900 font-semibold mb-1">みんなの写真を見る</h3>
                 <p className="text-amber-700 leading-relaxed text-sm">
-                  皆様の写真をギャラリーでお楽しみください
+                  写真をギャラリーでお楽しみください
                 </p>
               </div>
             </div>

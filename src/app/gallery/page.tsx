@@ -46,7 +46,7 @@ export default function GalleryPage() {
         <div className="max-w-md mx-auto relative z-10">
           <div className="text-center">
             <div className="w-20 h-20 border-4 border-amber-300 border-t-amber-500 rounded-full animate-spin mx-auto mb-6 shadow-lg"></div>
-            <h2 className="text-2xl font-serif text-amber-900 mb-3">思い出を読み込み中</h2>
+            <h2 className="text-2xl font-serif text-amber-900 mb-3">Loading...</h2>
             <p className="text-amber-700 font-light">Loading precious moments...</p>
           </div>
         </div>
@@ -83,15 +83,13 @@ export default function GalleryPage() {
       <div className="max-w-md mx-auto relative z-10">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-serif text-amber-900 mb-3 leading-tight tracking-wide">
-            Wedding
+            Photo Contest
             <span className="block text-2xl font-light text-amber-700 mt-1">
               Photo Gallery
             </span>
           </h1>
           <div className="w-20 h-0.5 bg-gradient-to-r from-amber-400 to-rose-400 mx-auto mb-4"></div>
           <p className="text-amber-800 text-base leading-relaxed font-light mb-6">
-            皆様からの素敵な<br />
-            <span className="font-medium">思い出をご覧ください</span>
           </p>
           <div className="space-y-3">
             <Link
@@ -122,7 +120,7 @@ export default function GalleryPage() {
             </h2>
             <p className="text-amber-700 text-base mb-8 leading-relaxed font-light">
               結婚式の素敵な瞬間を<br />
-              <span className="font-medium">皆様と共有してください</span>
+              <span className="font-medium">共有してください</span>
             </p>
             <Link
               href="/upload"
@@ -177,7 +175,7 @@ export default function GalleryPage() {
               <div className="inline-flex items-center gap-3 bg-white/90 backdrop-blur-md rounded-full px-6 py-3 shadow-lg border border-amber-200/50">
                 <div className="w-2 h-2 rounded-full bg-gradient-to-r from-amber-400 to-rose-400"></div>
                 <p className="text-amber-800 font-medium text-sm">
-                  {photos.length} photos shared
+                  {photos.length} entries submitted
                 </p>
                 <div className="w-2 h-2 rounded-full bg-gradient-to-r from-rose-400 to-pink-400"></div>
               </div>

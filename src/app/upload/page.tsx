@@ -79,7 +79,7 @@ export default function UploadPage() {
         throw new Error('データベースへの保存に失敗しました');
       }
 
-      alert('📸 写真がアップロードされました！\n「みんなのアップロード」で確認できます。');
+      alert('📸 コンテストへの応募が完了しました！\n「応募作品を見る」で確認できます。');
       router.push('/gallery');
     } catch (error) {
       console.error('Upload error:', error);
@@ -94,15 +94,15 @@ export default function UploadPage() {
       <div className="max-w-md mx-auto relative z-10">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-serif text-amber-900 mb-3 leading-tight tracking-wide">
-            Share Your
+            Submit Your
             <span className="block text-2xl font-light text-amber-700 mt-1">
-              Precious Moment
+              Best Shot
             </span>
           </h1>
           <div className="w-20 h-0.5 bg-gradient-to-r from-amber-400 to-rose-400 mx-auto mb-4"></div>
           <p className="text-amber-800 text-base leading-relaxed font-light">
-            あなたの大切な瞬間を<br />
-            <span className="font-medium">皆様と共有してください</span>
+            結婚式のベストショットで<br />
+            <span className="font-medium">フォトコンテストに応募しよう</span>
           </p>
         </div>
 
@@ -192,15 +192,15 @@ export default function UploadPage() {
                 <>
                   <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
                   <div>
-                    <div className="font-semibold">アップロード中</div>
+                    <div className="font-semibold">応募中</div>
                     <div className="text-sm opacity-90">Please wait...</div>
                   </div>
                 </>
               ) : (
                 <>
                   <div>
-                    <div className="font-semibold">思い出をシェアする</div>
-                    <div className="text-sm opacity-90">Upload photo</div>
+                    <div className="font-semibold">コンテストに応募する</div>
+                    <div className="text-sm opacity-90">Submit entry</div>
                   </div>
                 </>
               )}

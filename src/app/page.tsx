@@ -12,14 +12,14 @@ export default function Home() {
               Shota <span className="text-2xl">&</span> Yukina<br />
               Wedding
               <span className="block text-2xl font-light text-amber-700 mt-1">
-                Memories
+                Photo Contest
               </span>
             </h1>
             <div className="w-24 h-0.5 bg-gradient-to-r from-amber-400 to-rose-400 mx-auto mb-6"></div>
           </div>
           <p className="text-lg text-amber-800 leading-relaxed font-light">
-            今日という1日を<br />
-            <span className="font-medium">写真に残してみませんか？</span>
+            素敵な瞬間を撮影して<br />
+            <span className="font-medium">フォトコンテストに参加しよう！</span>
           </p>
         </div>
 
@@ -61,33 +61,33 @@ export default function Home() {
                 1
               </div>
               <div>
-                <h3 className="text-amber-900 font-semibold mb-1">写真をアップロード</h3>
+                <h3 className="text-amber-900 font-semibold mb-1">ベストショットを撮影</h3>
                 <p className="text-amber-700 leading-relaxed text-sm">
-                  ニックネームと共に素敵な写真を送ってください
+                  結婚式の素敵な瞬間を写真に収めてください
                 </p>
               </div>
             </div>
-            
+
             <div className="flex items-start gap-4">
               <div className="bg-gradient-to-r from-rose-400 to-pink-400 text-white rounded-full w-10 h-10 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1 shadow-lg">
                 2
               </div>
               <div>
-                <h3 className="text-amber-900 font-semibold mb-1">コメントを添える（任意）</h3>
+                <h3 className="text-amber-900 font-semibold mb-1">写真をアップロード</h3>
                 <p className="text-amber-700 leading-relaxed text-sm">
-                  写真にひとことのメッセージを添えてください
+                  ニックネームと共にコンテストに応募してください
                 </p>
               </div>
             </div>
-            
+
             <div className="flex items-start gap-4">
               <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1 shadow-lg">
                 3
               </div>
               <div>
-                <h3 className="text-amber-900 font-semibold mb-1">みんなの写真を見る</h3>
+                <h3 className="text-amber-900 font-semibold mb-1">他の作品も楽しむ</h3>
                 <p className="text-amber-700 leading-relaxed text-sm">
-                  写真をギャラリーでお楽しみください
+                  ゲストの皆様の作品をギャラリーでご覧ください
                 </p>
               </div>
             </div>

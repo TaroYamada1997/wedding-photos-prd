@@ -9,7 +9,7 @@
 !include AWSPuml/Compute/LambdaLambdaFunction.puml
 !include AWSPuml/FrontEndWebMobile/Amplify.puml
 
-title Wedding Photo Upload App - AWS Architecture
+title 結婚式写真アップロードアプリ - AWSアーキテクチャ
 
 skinparam shadowing false
 hide stereotype
@@ -19,21 +19,21 @@ skinparam linetype ortho
 <back:royalblue><color:white><b> $number </b></color></back>
 !endprocedure
 
-rectangle "$UsersIMG()\nUsers\n(Mobile/Desktop)" as users
+rectangle "$UsersIMG()\nユーザー\n(モバイル/デスクトップ)" as users
 
 ' External Neon Database (outside AWS Cloud)
-rectangle "🐘 Neon PostgreSQL\nExternal Cloud DB\nServerless Postgres" as neon #00E5FF
+rectangle "🐘 Neon PostgreSQL\n外部クラウドDB\nサーバーレス Postgres" as neon #00E5FF
 
 AWSCloudGroup(aws) {
-    ' Frontend Layer
-    rectangle "$CloudFrontIMG()\nAmazon CloudFront\nGlobal Content Delivery\nCaching & HTTPS" as cloudfront
+    ' フロントエンド層
+    rectangle "$CloudFrontIMG()\nAmazon CloudFront\n(Amplify自動設定)\nアセット配信・キャッシュ" as cloudfront
 
     rectangle "$AmplifyIMG()\nAWS Amplify\nNext.js 15 App Router\n• /api/upload\n• /api/photos\n• /api/debug-env\n• /api/migrate" as amplify
 
-    ' Storage Layer
-    rectangle "$SimpleStorageServiceIMG()\nAmazon S3\nshota-wedding-photos-bucket\nPhoto Storage" as s3
-    ' Security Layer
-    rectangle "$IdentityAccessManagementIMG()\nAWS IAM\nS3 Access Permissions\nLambda Execution" as iam
+    ' ストレージ層
+    rectangle "$SimpleStorageServiceIMG()\nAmazon S3\nshota-wedding-photos-bucket\n写真ストレージ" as s3
+    ' セキュリティ層
+    rectangle "$IdentityAccessManagementIMG()\nAWS IAM\nS3アクセス権限\n認証・認可" as iam
 }
 
 ' Layout positioning
@@ -42,50 +42,49 @@ cloudfront -[hidden]down-> amplify
 amplify -[hidden]down-> s3
 neon -[hidden]right-> aws
 
-' Main Data Flow
-users --> cloudfront : $stepnum("1") Access Web App
-cloudfront --> amplify : $stepnum("2") Serve App
+' メインデータフロー
+users --> amplify : $stepnum("1") Webアプリアクセス
 
-' Photo Upload Flow
-users --> amplify : $stepnum("3") Request Upload URL\n(/api/upload)
-amplify --> s3 : Generate Presigned URL
-users --> s3 : $stepnum("4") Direct Upload
+' 写真アップロードフロー
+users --> amplify : $stepnum("2") アップロードURL要求\n(/api/upload)
+amplify --> s3 : 署名付きURL生成
+users --> s3 : $stepnum("3") 直接アップロード
 
-' Metadata Flow
-users --> amplify : $stepnum("5") Save Metadata\n(/api/photos)
-amplify --> neon : Store via Prisma
+' メタデータフロー
+users --> amplify : $stepnum("4") メタデータ保存\n(/api/photos)
+amplify --> neon : Prisma経由で保存
 
-' Gallery View Flow
-users --> amplify : $stepnum("6") Get Photos\n(/api/photos)
-amplify <-- neon : Photo List via Prisma
-users <-- cloudfront : $stepnum("7") View Gallery
-cloudfront <-- s3 : Cached Images
+' ギャラリー表示フロー
+users --> amplify : $stepnum("5") 写真一覧取得\n(/api/photos)
+amplify <-- neon : Prisma経由で写真リスト
+users <-- amplify : $stepnum("6") ギャラリー表示
+amplify <-- s3 : 画像取得（必要時）
 
-' Security & Permission Flow
-iam -.-> amplify : S3 Access Credentials
-iam -.-> s3 : Access Permissions
+' セキュリティ・権限フロー
+iam -.-> amplify : S3アクセス認証情報
+iam -.-> s3 : アクセス権限
 
-' Key Components Overview
+' 主要コンポーネント概要
 note top of cloudfront
-<b>Wedding Photo Upload App</b>
+<b>結婚式写真アップロードアプリ</b>
 ・Next.js 15 App Router + Tailwind CSS
-・API Routes in Amplify
-・Instagram-style gallery
-・Mobile-first design
+・Amplify内のAPI Routes
+・Instagramスタイルギャラリー
+・モバイルファースト設計
 end note
 
 note right of neon
-<b>Database Schema (Prisma)</b>
-photos table:
+<b>データベーススキーマ (Prisma)</b>
+photosテーブル:
 ・id, nickname, comment
 ・s3Key, cloudFrontUrl
 ・uploadedAt
 end note
 
 note bottom of s3
-<b>Storage</b>
-・Private S3 bucket
-・Presigned URL upload
+<b>ストレージ</b>
+・プライベートS3バケット
+・署名付きURLアップロード
 ・CloudFront CDN
 ・/photos/{timestamp}-{filename}
 end note

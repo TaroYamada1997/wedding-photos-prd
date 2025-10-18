@@ -109,6 +109,30 @@ export default function UploadPage() {
         <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-amber-200/50 p-8 space-y-8">
           <div>
             <label className="block text-lg font-serif text-amber-900 mb-4 flex items-center gap-2">
+              <span className="text-xl"></span>
+              お名前またはニックネーム <span className="text-rose-500 text-lg">*</span>
+            </label>
+            <input
+              type="text"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              placeholder="お名前やニックネームを入力してください..."
+              className="w-full px-5 py-4 border-2 border-amber-200 rounded-xl focus:ring-4 focus:ring-amber-300/50 focus:border-amber-400 transition-all duration-300 text-base text-amber-900 placeholder-amber-400 bg-gradient-to-r from-white to-amber-50 shadow-inner"
+              required
+              maxLength={15}
+            />
+            <div className="flex justify-between items-center mt-3">
+              <p className="text-xs text-amber-600 flex items-center gap-1">
+                <span>✨</span> {nickname.length}/15文字
+              </p>
+              {nickname.length > 12 && (
+                <span className="text-xs text-orange-500">残り{15 - nickname.length}文字</span>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-lg font-serif text-amber-900 mb-4 flex items-center gap-2">
               写真を選択<span className="text-rose-500 text-lg">*</span>
             </label>
             <div className="relative">
@@ -134,30 +158,6 @@ export default function UploadPage() {
                 </p>
               </div>
             )}
-          </div>
-
-          <div>
-            <label className="block text-lg font-serif text-amber-900 mb-4 flex items-center gap-2">
-              <span className="text-xl"></span>
-              お名前またはニックネーム <span className="text-rose-500 text-lg">*</span>
-            </label>
-            <input
-              type="text"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              placeholder="お名前やニックネームを入力してください..."
-              className="w-full px-5 py-4 border-2 border-amber-200 rounded-xl focus:ring-4 focus:ring-amber-300/50 focus:border-amber-400 transition-all duration-300 text-base text-amber-900 placeholder-amber-400 bg-gradient-to-r from-white to-amber-50 shadow-inner"
-              required
-              maxLength={15}
-            />
-            <div className="flex justify-between items-center mt-3">
-              <p className="text-xs text-amber-600 flex items-center gap-1">
-                <span>✨</span> {nickname.length}/15文字
-              </p>
-              {nickname.length > 12 && (
-                <span className="text-xs text-orange-500">残り{15 - nickname.length}文字</span>
-              )}
-            </div>
           </div>
 
           <div>

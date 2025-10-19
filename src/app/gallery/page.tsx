@@ -64,12 +64,12 @@ export default function GalleryPage() {
             <h2 className="text-2xl font-serif text-amber-900 mb-4">おっと...</h2>
             <p className="text-amber-700 text-lg mb-8 font-light leading-relaxed">{error}</p>
             <Link
-              href="/"
+              href="/thank-you"
               className="group w-full bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400 hover:from-amber-500 hover:via-amber-600 hover:to-orange-500 text-white font-semibold py-4 px-6 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl active:scale-98 border border-amber-300 flex items-center justify-center gap-3"
             >
               <div>
-                <div className="font-semibold">ホームに戻る</div>
-                <div className="text-sm opacity-90">Go back home</div>
+                <div className="font-semibold">戻る</div>
+                <div className="text-sm opacity-90">Go back</div>
               </div>
             </Link>
           </div>
@@ -93,21 +93,12 @@ export default function GalleryPage() {
           </p>
           <div className="space-y-3">
             <Link
-              href="/upload"
-              className="group w-full bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400 hover:from-amber-500 hover:via-amber-600 hover:to-orange-500 text-white font-semibold py-4 px-6 rounded-2xl text-lg transition-all duration-300 shadow-lg hover:shadow-xl active:scale-98 border border-amber-300 flex items-center justify-center gap-3"
-            >
-              <div>
-                <div className="font-semibold">写真をアップロード</div>
-                <div className="text-xs opacity-90">Share your moment</div>
-              </div>
-            </Link>
-            <Link
-              href="/"
+              href="/thank-you"
               className="group w-full bg-white/80 hover:bg-white border-2 border-amber-200 hover:border-amber-300 text-amber-800 hover:text-amber-900 font-semibold py-4 px-6 rounded-2xl text-lg transition-all duration-300 shadow-lg hover:shadow-xl text-center flex items-center justify-center gap-3 backdrop-blur-sm"
             >
               <div>
-                <div className="font-semibold">ホームに戻る</div>
-                <div className="text-xs opacity-80">Go back home</div>
+                <div className="font-semibold">戻る</div>
+                <div className="text-xs opacity-80">Go back</div>
               </div>
             </Link>
           </div>
@@ -115,23 +106,13 @@ export default function GalleryPage() {
 
         {photos.length === 0 ? (
           <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-amber-200/50 p-10 text-center">
+            <div className="text-5xl mb-4">📸</div>
             <h2 className="text-2xl font-serif text-amber-900 mb-4">
               まだ写真がありません
             </h2>
-            <p className="text-amber-700 text-base mb-8 leading-relaxed font-light">
-              結婚式の素敵な瞬間を<br />
-              <span className="font-medium">共有してください</span>
+            <p className="text-amber-700 text-base leading-relaxed font-light">
+              素敵な写真が投稿されるのをお楽しみに
             </p>
-            <Link
-              href="/upload"
-              className="group w-full bg-gradient-to-r from-amber-400 via-amber-500 to-orange-400 hover:from-amber-500 hover:via-amber-600 hover:to-orange-500 text-white font-semibold py-4 px-6 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl active:scale-98 border border-amber-300 flex items-center justify-center gap-4"
-            >
-              <span className="text-2xl group-hover:scale-110 transition-transform">✨</span>
-              <div>
-                <div className="font-semibold">最初の写真を投稿</div>
-                <div className="text-sm opacity-90">Be the first to share</div>
-              </div>
-            </Link>
           </div>
         ) : (
           <>

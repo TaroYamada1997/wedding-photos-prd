@@ -24,11 +24,22 @@ export default function GalleryPage() {
     const fetchPhotos = async () => {
       try {
         const response = await fetch('/api/photos');
-        if (!response.ok) {
-          throw new Error('写真の取得に失敗しました');
-        }
         const data = await response.json();
-        setPhotos(data);
+
+        console.log('API Response:', data);
+
+        // Check if response has error
+        if (data.error) {
+          console.error('API Error:', data.message);
+          setError(`Database Error: ${data.message}`);
+          setPhotos([]);
+        } else if (Array.isArray(data)) {
+          setPhotos(data);
+        } else if (data.photos && Array.isArray(data.photos)) {
+          setPhotos(data.photos);
+        } else {
+          setPhotos([]);
+        }
       } catch (error) {
         console.error('Error fetching photos:', error);
         setError('写真の読み込みに失敗しました');
